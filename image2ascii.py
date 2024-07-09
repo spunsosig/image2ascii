@@ -1,11 +1,16 @@
 import os
 import sys
-from PIL import Image
+from PIL import Image, ImageOps
 
 def main(image, name):
+    size = (150, 150)
     img = Image.open(image)
+
     img = img.convert('RGB')
+    img = ImageOps.contain(img, size)
+
     width, height = img.size
+    print(f"image size = {width} x {height}")
     filepath = fr"C:\Users\ikram\PycharmProjects\image2ascii\ascii\{name}"
 
     output = []
