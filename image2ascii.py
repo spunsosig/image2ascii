@@ -3,6 +3,7 @@ import sys
 from PIL import Image, ImageOps
 
 def main(image, name):
+    print("Hello world")
     size = (150, 150)
     img = Image.open(image)
 
@@ -11,7 +12,9 @@ def main(image, name):
 
     width, height = img.size
     print(f"image size = {width} x {height}")
-    filepath = fr"C:\Users\ikram\PycharmProjects\image2ascii\ascii\{name}"
+    filepath = fr"C:\Users\ikram\projects\ascii_generator\image2ascii\images\{name}"
+
+    print(filepath)
 
     output = []
     for i in range(height):
@@ -67,9 +70,11 @@ def main(image, name):
     os.startfile(filepath)
     output_file.close()
 
+# main('/Users/Ikram/Pictures/goku.png', 'goku')
+
 if __name__ == "__main__":
     try:
         main(sys.argv[1], sys.argv[2])
         print(f"ASCII '{sys.argv[2]}' created successfully!")
-    except:
-        print("An exception occurred")
+    except Exception as e:
+        print("An exception occurred", {e})
