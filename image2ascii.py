@@ -1,18 +1,39 @@
 import os
 import sys
+import tkinter
+
+from tkinter import *
+from tkinter import filedialog
 from PIL import Image, ImageOps
 
-def main(image, name):
+
+imgFilePath = ""
+fileName = ""
+
+def getFilePath():
+    global imgFilePath
+    imgFilePath = filedialog.askopenfilename()
+    print(imgFilePath)
+
+def submitOnClick():
+    fileName = entry.get()
+
+    print("=======================")
+    print("SUBMIT CLICKED")
+    print("")
+    print("Image file path: " + imgFilePath)
+    print("Name: " + fileName)
+
     print("Hello world")
     size = (150, 150)
-    img = Image.open(image)
+    img = Image.open(imgFilePath)
 
     img = img.convert('RGB')
     img = ImageOps.contain(img, size)
 
     width, height = img.size
     print(f"image size = {width} x {height}")
-    filepath = fr"C:\Users\ikram\projects\ascii_generator\image2ascii\images\{name}"
+    filepath = fr"C:\Users\ikram\projects\ascii_generator\image2ascii\images\{fileName}"
 
     print(filepath)
 
@@ -24,8 +45,8 @@ def main(image, name):
         for y in range(0, height):
 
             pixelRGB = img.getpixel((x, y))
-            r,g,b = pixelRGB
-            brightness = sum([r, g, b])/3
+            r, g, b = pixelRGB
+            brightness = sum([r, g, b]) / 3
 
             if brightness == 0:
                 output[y][x] = "."
@@ -65,16 +86,21 @@ def main(image, name):
         output_file = open(filepath, "w")
 
     for row in output:
-        output_file.write("".join(row)+"\n")
+        output_file.write("".join(row) + "\n")
 
     os.startfile(filepath)
     output_file.close()
 
-# main('/Users/Ikram/Pictures/goku.png', 'goku')
+window = Tk()
+window.geometry("500x380")
 
-if __name__ == "__main__":
-    try:
-        main(sys.argv[1], sys.argv[2])
-        print(f"ASCII '{sys.argv[2]}' created successfully!")
-    except Exception as e:
-        print("An exception occurred", {e})
+entry = tkinter.Entry()
+openBtn = Button(text="Open",command=getFilePath)
+submitBtn = Button(text="Submit", command=submitOnClick)
+
+entry.pack()
+openBtn.pack()
+submitBtn.pack()
+
+window.mainloop()
+
